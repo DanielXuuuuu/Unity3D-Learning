@@ -135,12 +135,18 @@ public class FirstController : MonoBehaviour, ISceneController, IUserAction
     {
         if (!gaming)
             return;
+        //当其他角色还在移动时，不允许移动
+        for (int i = 0; i < 3; i++)
+        {
+            if (Priests[i].IsMoving() || Devils[i].IsMoving())
+                return;
+        }
+        //如果还在前进，return
+        if (Boat.IsMoving())
+            return;
+
         if (role.IsOnBoat())        //上岸
         {
-            //如果还在前进，return
-            if (Boat.IsMoving())
-                return;
-
             //这里，为了和原游戏一致，使牧师和魔鬼在两边的排列顺序一致
             role = Boat.DeletePassenger(role);
             Vector3 direction;
@@ -174,14 +180,13 @@ public class FirstController : MonoBehaviour, ISceneController, IUserAction
 
     public void MoveBoat()
     {
-        //当船为空，或者船已经在动时，不允许移动
+        //当船为空，或者船已经在动时，不允许移动船
         if (!Boat.IsEmpty() && !Boat.IsMoving())
         {
-            //当角色还在移动时，不允许移动，不然会出现Bug
-            RoleModel[] temp = Boat.GetPassengers();
-            for (int i = 0; i < 2; i++)
+            //当角色还在移动时，不允许移动船
+            for (int i = 0; i < 3; i++)
             {
-                if (temp[i] != null && temp[i].IsMoving())
+                if (Priests[i].IsMoving() || Devils[i].IsMoving())
                     return;
             }
 

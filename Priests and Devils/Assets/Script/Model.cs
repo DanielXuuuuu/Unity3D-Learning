@@ -223,7 +223,7 @@ public class RoleModel
         onBoat = false;
     }
 
-    //下面Attack和Idle两个函数为恶魔专属，似乎有些不符合role的设定，用继承可能好一点
+    //下面Attack、Idle、Lose三个函数为恶魔专属，用于设置恶魔动画，似乎有些不符合role的设定，用继承可能好一点
     public void Attack()
     {
         Animator anim = role.GetComponent<Animator>();
